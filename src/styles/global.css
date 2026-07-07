@@ -13,13 +13,19 @@
   --font-hand: 'Poor Story', cursive;
 
   /* Fluid type scale, 1920px reference frame */
-  --fs-display: clamp(3.75rem, 10.4vw, 12.5rem);   /* 200px */
-  --fs-heading: clamp(2.625rem, 6.25vw, 7.5rem);   /* 120px */
-  --fs-about: clamp(1.75rem, 6.15vw, 7.375rem);    /* 118px */
-  --fs-body-lg: clamp(1rem, 1.25vw, 1.5rem);       /* 24px */
-  --fs-ticker: clamp(3.125rem, 10.4vw, 12.5rem);   /* 200px */
+  --fs-display: clamp(3.75rem, 10.4vw, 12.5rem);
+  /* 200px */
+  --fs-heading: clamp(2.625rem, 6.25vw, 7.5rem);
+  /* 120px */
+  --fs-about: clamp(1.75rem, 6.15vw, 7.375rem);
+  /* 118px */
+  --fs-body-lg: clamp(1rem, 1.25vw, 1.5rem);
+  /* 24px */
+  --fs-ticker: clamp(3.125rem, 10.4vw, 12.5rem);
+  /* 200px */
 
-  --pad-x: clamp(1.25rem, 6.25vw, 7.5rem);         /* 120px */
+  --pad-x: clamp(1.25rem, 6.25vw, 7.5rem);
+  /* 120px */
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
@@ -44,7 +50,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, p {
+h1,
+h2,
+h3,
+p {
   margin: 0;
 }
 
@@ -119,14 +128,14 @@ button {
   overflow: hidden;
 }
 
-[data-reveal-mask] > * {
+[data-reveal-mask]>* {
   display: block;
   transform: translateY(110%);
   transition: transform 900ms var(--ease-out);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-[data-reveal-mask].is-visible > * {
+[data-reveal-mask].is-visible>* {
   transform: none;
 }
 
@@ -149,7 +158,7 @@ button {
   font-weight: 600;
   line-height: 1;
   text-transform: lowercase;
-  color: var(--c-white);
+  color: #1e1e1e;
   flex-shrink: 0;
   padding-right: clamp(20px, 2.6vw, 50px);
 }
@@ -159,8 +168,13 @@ button {
 }
 
 @keyframes ticker-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* ============ Photo marquee ============ */
@@ -183,6 +197,22 @@ button {
   object-fit: cover;
 }
 
+/* ============ Mobile (Figma 375px frame) ============ */
+@media (max-width: 768px) {
+  :root {
+    --fs-heading: 42px;
+    --fs-about: clamp(32px, 11.2vw, 42px);
+    --fs-ticker: 45px;
+    --fs-body-lg: 14px;
+    --pad-x: 30px;
+  }
+
+  .pill-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
 /* ============ Reduced motion ============ */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -190,7 +220,7 @@ button {
   }
 
   [data-reveal],
-  [data-reveal-mask] > * {
+  [data-reveal-mask]>* {
     opacity: 1;
     transform: none;
     transition: none;

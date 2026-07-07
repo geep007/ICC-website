@@ -23,4 +23,12 @@
     height: 100%;
     object-fit: cover;
   }
+
+  @media (max-width: 768px) {
+    /* Portrait crop, matching the 375x600 mobile frame. */
+    .gif-section {
+      aspect-ratio: 5 / 8;
+      max-height: 90svh;
+    }
+  }
 </style>

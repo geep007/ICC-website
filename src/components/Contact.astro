@@ -169,13 +169,50 @@ const { contact } = Astro.props;
     }
 
     .contact__media {
-      display: none;
+      flex: none;
+      min-height: 360px;
+      border-radius: 10px;
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
+    .contact {
+      padding-block: 50px;
+    }
+
+    .contact__heading {
+      text-align: center;
+      line-height: 1.19;
+    }
+
+    .contact__body {
+      text-align: justify;
+    }
+
+    .contact__form {
+      gap: 10px;
+    }
+
     .contact__row {
       flex-direction: column;
+      gap: 10px;
+    }
+
+    .field input,
+    .field select {
+      border-width: 1px;
+      padding: 14px 45px 14px 25px;
+      line-height: 16px;
+      font-size: 14px;
+    }
+
+    .field__chevron {
+      right: 20px;
+    }
+
+    .contact__submit {
+      margin-top: 40px;
+      padding: 15px 30px;
     }
   }
 </style>

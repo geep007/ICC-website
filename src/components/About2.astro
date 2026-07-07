@@ -127,9 +127,9 @@ const scribbleLines = about.scribble.split('\n');
   .about2__arrow {
     width: clamp(80px, 7.6vw, 147px);
     height: auto;
-    transform: scaleX(-1) rotate(25deg);
+    transform: scale(-1, -1) rotate(25deg);
     margin-bottom: 0px;
-    margin-left: -30px;
+    margin-left: -80px;
   }
 
   @media (max-width: 900px) {
@@ -145,6 +145,37 @@ const scribbleLines = about.scribble.split('\n');
     .about2__scribble-group {
       position: static;
       margin-top: 10px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about2 {
+      padding: 90px 30px 50px;
+      gap: 20px;
+    }
+
+    .about2__label {
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .about2__headline,
+    .about2__the {
+      font-size: clamp(36px, 11.2vw, 42px);
+      line-height: 1.19;
+    }
+
+    .about2__logo {
+      width: 69px;
+    }
+
+    .about2__scribble {
+      font-size: 16px;
+    }
+
+    .about2__arrow {
+      width: 60px;
+      margin-left: -20px;
     }
   }
 </style>

@@ -59,8 +59,29 @@ const [float1, float2, float3] = about.floats;
   }
 
   @media (max-width: 768px) {
-    .about1__lead { left: 8%; }
-    .about1__float--1 { right: 10%; }
-    .about1__outro { right: 8%; }
+    .about1 {
+      padding: 100px 30px;
+    }
+
+    .about1__headline {
+      line-height: 1.33;
+    }
+
+    /* Center the small floating lines over the headline like the mobile frame.
+       (left/right instead of transform so the reveal transition keeps working.) */
+    .about1__lead,
+    .about1__float,
+    .about1__outro {
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .about1__lead { top: 48px; }
+    .about1__float--1 { top: 39%; }
+    .about1__float--2 { top: 47%; }
+    .about1__float--3 { top: 62%; }
+    .about1__outro { bottom: 44px; }
   }
 </style>

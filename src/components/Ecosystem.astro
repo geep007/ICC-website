@@ -97,6 +97,24 @@ const { ecosystem } = Astro.props;
     transform: scaleY(1);
   }
 
+  @media (max-width: 768px) {
+    .eco {
+      padding-block: 50px;
+      gap: 40px;
+    }
+
+    .eco__heading {
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .eco__icon {
+      width: 46px;
+      align-self: center;
+      margin-top: 0;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .eco__block {
       transform: none;
