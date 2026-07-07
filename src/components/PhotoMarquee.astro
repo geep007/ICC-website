@@ -1,0 +1,14 @@
+---
+interface Props {
+  photos: string[];
+}
+const { photos } = Astro.props;
+// Two identical halves so the -50% translate loops seamlessly.
+const doubled = [...photos, ...photos];
+---
+
+<div class="photo-marquee" aria-label="Behind the scenes photos">
+  <div class="photo-marquee__track">
+    {doubled.map((src) => <img src={src} alt="" loading="lazy" decoding="async" />)}
+  </div>
+</div>

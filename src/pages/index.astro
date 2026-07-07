@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Ticker from '../components/Ticker.astro';
+import GifSection from '../components/GifSection.astro';
+import About1 from '../components/About1.astro';
+import About2 from '../components/About2.astro';
+import Services from '../components/Services.astro';
+import Ecosystem from '../components/Ecosystem.astro';
+import Brands from '../components/Brands.astro';
+import Contact from '../components/Contact.astro';
+import PhotoMarquee from '../components/PhotoMarquee.astro';
+import Footer from '../components/Footer.astro';
+import { getContent } from '../lib/sanity';
+
+const content = await getContent();
+---
+
+<Layout>
+  <Nav links={content.nav.links} />
+  <Hero hero={content.hero} />
+  <Ticker text={content.ticker1} duration="35s" />
+  <GifSection />
+  <About1 about={content.about1} />
+  <About2 about={content.about2} />
+  <Ticker text={content.ticker2} duration="45s" />
+  <Services services={content.services} />
+  <Ecosystem ecosystem={content.ecosystem} />
+  <Ticker text={content.ticker3} duration="30s" />
+  <Brands roster={content.roster} />
+  <Contact contact={content.contact} />
+  <PhotoMarquee photos={content.marqueePhotos} />
+  <Footer footer={content.footer} />
+</Layout>

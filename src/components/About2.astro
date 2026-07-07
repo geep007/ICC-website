@@ -1,0 +1,150 @@
+---
+import type { SiteContent } from '../content/defaults';
+
+interface Props {
+  about: SiteContent['about2'];
+}
+const { about } = Astro.props;
+const scribbleLines = about.scribble.split('\n');
+---
+
+<section class="about2">
+  <div class="about2__labels" data-reveal>
+    {about.labels.map((label, i) => (
+      <>
+        {i > 0 && <span class="about2__divider" aria-hidden="true"></span>}
+        <span class="about2__label">{label}</span>
+      </>
+    ))}
+  </div>
+
+  <div class="about2__call">
+    <h2 class="about2__headline">
+      <span data-reveal-mask style="--reveal-delay: 150ms"><span>{about.callLine}</span></span>
+    </h2>
+    <div class="about2__the-row" data-reveal-mask style="--reveal-delay: 300ms">
+      <span class="about2__the-inner">
+        <span class="about2__the">{about.theWord}</span>
+        <img class="about2__logo" src="/icons/co-icon-about.png" alt="co." width="289" height="134" />
+      </span>
+    </div>
+  </div>
+
+  <div class="about2__scribble-group" data-reveal style="--reveal-delay: 600ms">
+    <img
+      class="about2__arrow"
+      src="/icons/arrow-doodle.svg"
+      alt=""
+      width="147"
+      height="147"
+    />
+    <p class="about2__scribble">
+      {scribbleLines.map((line) => <span>{line}</span>)}
+    </p>
+  </div>
+</section>
+
+<style>
+  .about2 {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: clamp(100px, 10.4vw, 200px) var(--pad-x);
+  }
+
+  .about2__labels {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(12px, 1.6vw, 30px);
+    flex-wrap: wrap;
+  }
+
+  .about2__label {
+    font-size: var(--fs-body-lg);
+    font-weight: 600;
+    text-transform: lowercase;
+    text-align: center;
+    line-height: 1.25;
+  }
+
+  .about2__divider {
+    width: 2px;
+    height: 40px;
+    background: var(--c-yellow);
+  }
+
+  .about2__call {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(10px, 2.6vw, 50px);
+  }
+
+  .about2__headline,
+  .about2__the {
+    font-size: var(--fs-display);
+    font-weight: 600;
+    line-height: 0.85;
+    color: var(--c-yellow);
+    text-align: center;
+  }
+
+  .about2__the-inner {
+    display: flex;
+    align-items: center;
+    gap: clamp(16px, 2.3vw, 45px);
+  }
+
+  .about2__logo {
+    width: clamp(100px, 15vw, 289px);
+    height: auto;
+  }
+
+  .about2__scribble-group {
+    position: absolute;
+    right: clamp(4%, 14vw, 15%);
+    bottom: clamp(6%, 18vh, 22%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about2__scribble {
+    font-family: var(--font-hand);
+    font-size: clamp(22px, 2.1vw, 40px);
+    line-height: 1;
+    text-align: center;
+    transform: rotate(-8.85deg);
+  }
+
+  .about2__scribble span {
+    display: block;
+  }
+
+  .about2__arrow {
+    width: clamp(80px, 7.6vw, 147px);
+    height: auto;
+    transform: scaleX(-1) rotate(25deg);
+    margin-bottom: 0px;
+    margin-left: -30px;
+  }
+
+  @media (max-width: 900px) {
+    .about2__divider {
+      display: none;
+    }
+
+    .about2__labels {
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .about2__scribble-group {
+      position: static;
+      margin-top: 10px;
+    }
+  }
+</style>

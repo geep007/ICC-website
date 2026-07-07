@@ -1,0 +1,66 @@
+---
+import type { SiteContent } from '../content/defaults';
+
+interface Props {
+  about: SiteContent['about1'];
+}
+const { about } = Astro.props;
+const [float1, float2, float3] = about.floats;
+---
+
+<section class="about1" id="about">
+  <p class="about1__lead" data-reveal>{about.lead}</p>
+  <h2 class="about1__headline" data-reveal style="--reveal-delay: 100ms">{about.headline}</h2>
+  <span class="about1__float about1__float--1" data-reveal style="--reveal-delay: 400ms">{float1}</span>
+  <span class="about1__float about1__float--2" data-reveal style="--reveal-delay: 550ms">{float2}</span>
+  <span class="about1__float about1__float--3" data-reveal style="--reveal-delay: 700ms">{float3}</span>
+  <p class="about1__outro" data-reveal style="--reveal-delay: 300ms">
+    {about.outroPlain}<span class="about1__accent">{about.outroAccent}</span>
+  </p>
+</section>
+
+<style>
+  .about1 {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(80px, 6vw, 100px) var(--pad-x);
+  }
+
+  .about1__headline {
+    font-size: var(--fs-about);
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    color: var(--c-yellow);
+    max-width: 1680px;
+  }
+
+  .about1__lead,
+  .about1__float,
+  .about1__outro {
+    position: absolute;
+    font-size: var(--fs-body-lg);
+    font-weight: 600;
+    text-transform: lowercase;
+    white-space: nowrap;
+  }
+
+  .about1__lead { top: 9%; left: 10%; }
+  .about1__float--1 { top: 26%; right: 27%; }
+  .about1__float--2 { top: 44%; left: 21%; }
+  .about1__float--3 { top: 60%; left: 9%; }
+  .about1__outro { bottom: 9%; right: 11%; }
+
+  .about1__accent {
+    color: var(--c-yellow);
+  }
+
+  @media (max-width: 768px) {
+    .about1__lead { left: 8%; }
+    .about1__float--1 { right: 10%; }
+    .about1__outro { right: 8%; }
+  }
+</style>

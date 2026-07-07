@@ -1,0 +1,160 @@
+---
+import type { SiteContent } from '../content/defaults';
+
+interface Props {
+  footer: SiteContent['footer'];
+}
+const { footer } = Astro.props;
+---
+
+<footer class="footer">
+  <div class="footer__talk" data-reveal>
+    <p class="footer__talk-heading">{footer.heading}</p>
+    <div class="footer__methods">
+      {footer.methods.map((method) => (
+        <a class="footer__method" href={method.href}>
+          <img src={method.icon} alt="" width="40" height="40" />
+          <span>{method.label}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <div class="footer__brand">
+    <p class="footer__credit" data-reveal>{footer.creditLine}</p>
+    <div class="footer__logo" data-reveal-mask style="--reveal-delay: 150ms">
+      <div class="footer__logo-crop">
+        <img src="/images/footer-logo.png" alt="independent creators co." loading="lazy" />
+      </div>
+    </div>
+    <nav class="footer__nav" aria-label="Footer">
+      {footer.navLinks.map((link) => (
+        <a href={`#${link.toLowerCase().replace(/[^a-z]+/g, '-')}`}>{link}</a>
+      ))}
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(60px, 7vw, 140px);
+    padding-block: clamp(60px, 5.2vw, 100px) 0;
+    overflow: hidden;
+  }
+
+  .footer__talk {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .footer__talk-heading {
+    font-size: var(--fs-body-lg);
+    font-weight: 700;
+    text-transform: lowercase;
+    color: var(--c-yellow);
+  }
+
+  .footer__methods {
+    display: flex;
+    gap: clamp(20px, 3vw, 60px);
+  }
+
+  .footer__method {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    font-size: var(--fs-body-lg);
+    font-weight: 500;
+    text-transform: lowercase;
+    transition: transform 250ms var(--ease-out);
+  }
+
+  .footer__method img {
+    width: clamp(28px, 2vw, 40px);
+    height: auto;
+  }
+
+  @media (hover: hover) {
+    .footer__method:hover {
+      transform: translateY(-4px);
+      color: var(--c-yellow);
+    }
+  }
+
+  .footer__brand {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer__credit {
+    font-size: var(--fs-body-lg);
+    font-weight: 500;
+    text-transform: lowercase;
+    margin-bottom: -0.5em;
+    z-index: 1;
+  }
+
+  /* Replicates the Figma crop of the square source logo (1920/558 window). */
+  .footer__logo-crop {
+    position: relative;
+    width: 100vw;
+    aspect-ratio: 1920 / 558;
+    overflow: hidden;
+  }
+
+  .footer__logo-crop img {
+    position: absolute;
+    width: 124.38%;
+    max-width: none;
+    height: auto;
+    left: -12.44%;
+    top: -162.53%;
+  }
+
+  .footer__nav {
+    position: absolute;
+    left: var(--pad-x);
+    bottom: clamp(16px, 4vw, 90px);
+    display: flex;
+    flex-direction: column;
+    font-size: var(--fs-body-lg);
+    font-weight: 500;
+    text-transform: lowercase;
+    line-height: 1.5;
+  }
+
+  .footer__nav a {
+    transition: color 200ms ease;
+  }
+
+  @media (hover: hover) {
+    .footer__nav a:hover {
+      color: var(--c-yellow);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .footer__methods {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer__nav {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      padding: 24px var(--pad-x);
+    }
+  }
+</style>

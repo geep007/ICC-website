@@ -1,0 +1,203 @@
+/* ============ Design tokens (from Figma) ============ */
+:root {
+  --c-black: #000000;
+  --c-panel: #1e1e1e;
+  --c-card: #202020;
+  --c-bar: #3d3d3d;
+  --c-yellow: #fecc66;
+  --c-muted: #706d67;
+  --c-white: #ffffff;
+
+  --font-body: 'Poppins', system-ui, sans-serif;
+  --font-form: 'Manrope', system-ui, sans-serif;
+  --font-hand: 'Poor Story', cursive;
+
+  /* Fluid type scale, 1920px reference frame */
+  --fs-display: clamp(3.75rem, 10.4vw, 12.5rem);   /* 200px */
+  --fs-heading: clamp(2.625rem, 6.25vw, 7.5rem);   /* 120px */
+  --fs-about: clamp(1.75rem, 6.15vw, 7.375rem);    /* 118px */
+  --fs-body-lg: clamp(1rem, 1.25vw, 1.5rem);       /* 24px */
+  --fs-ticker: clamp(3.125rem, 10.4vw, 12.5rem);   /* 200px */
+
+  --pad-x: clamp(1.25rem, 6.25vw, 7.5rem);         /* 120px */
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--c-black);
+  color: var(--c-white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, p {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+/* ============ Shared pieces ============ */
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  border-radius: 100px;
+  background: var(--c-yellow);
+  color: var(--c-black);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--fs-body-lg);
+  text-transform: lowercase;
+  transition: transform 200ms var(--ease-out), background-color 200ms ease;
+}
+
+@media (hover: hover) {
+  .pill-btn:hover {
+    transform: scale(1.04);
+    background: #ffd97f;
+  }
+}
+
+.pill-btn:active {
+  transform: scale(0.97);
+}
+
+.section-heading {
+  font-size: var(--fs-heading);
+  font-weight: 600;
+  line-height: 1;
+  text-transform: lowercase;
+  color: var(--c-yellow);
+}
+
+/* ============ Scroll reveal ============ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 700ms var(--ease-out),
+    transform 700ms var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Masked line reveal (hero display text) */
+[data-reveal-mask] {
+  overflow: hidden;
+}
+
+[data-reveal-mask] > * {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 900ms var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal-mask].is-visible > * {
+  transform: none;
+}
+
+/* ============ Ticker marquee ============ */
+.ticker {
+  overflow: hidden;
+  padding-block: clamp(20px, 2.6vw, 50px);
+  white-space: nowrap;
+}
+
+.ticker__track {
+  display: flex;
+  gap: clamp(4px, 0.52vw, 10px);
+  width: max-content;
+  animation: ticker-scroll var(--ticker-duration, 40s) linear infinite;
+}
+
+.ticker__item {
+  font-size: var(--fs-ticker);
+  font-weight: 600;
+  line-height: 1;
+  text-transform: lowercase;
+  color: var(--c-white);
+  flex-shrink: 0;
+  padding-right: clamp(20px, 2.6vw, 50px);
+}
+
+.ticker--yellow .ticker__item {
+  color: var(--c-yellow);
+}
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ============ Photo marquee ============ */
+.photo-marquee {
+  overflow: hidden;
+  padding-block: clamp(40px, 5.2vw, 100px);
+}
+
+.photo-marquee__track {
+  display: flex;
+  gap: 30px;
+  width: max-content;
+  animation: ticker-scroll 120s linear infinite;
+}
+
+.photo-marquee__track img {
+  height: clamp(220px, 23.4vw, 450px);
+  width: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* ============ Reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-reveal],
+  [data-reveal-mask] > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .ticker__track,
+  .photo-marquee__track {
+    animation: none;
+  }
+}

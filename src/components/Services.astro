@@ -1,0 +1,400 @@
+---
+import type { SiteContent } from '../content/defaults';
+
+interface Props {
+  services: SiteContent['services'];
+}
+const { services } = Astro.props;
+---
+
+<section class="services" id="services">
+  <div class="services__head" data-reveal>
+    <h2 class="section-heading">{services.heading}</h2>
+    <a class="pill-btn" href="#contact">{services.ctaText}</a>
+  </div>
+
+  <div class="services__body" data-reveal style="--reveal-delay: 150ms">
+    <ul class="services__list" role="tablist" aria-label="Services">
+      {services.items.map((item, i) => (
+        <li>
+          <button
+            class:list={['services__tab', { 'is-active': i === 0 }]}
+            role="tab"
+            aria-selected={i === 0 ? 'true' : 'false'}
+            data-index={i}
+          >
+            <span class="services__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="services__name">{item}</span>
+          </button>
+        </li>
+      ))}
+    </ul>
+
+    <div class="services__panel" role="tabpanel">
+      <!-- Level 1: project list -->
+      <ul class="services__projects">
+        {services.projects.map((project, i) => (
+          <li>
+            <button class="services__project" data-project={i}>
+              <span class="services__project-category">{project.category}</span>
+              <span class="services__project-name">{project.name}</span>
+              <img class="services__project-logo" src={project.logo} alt="" loading="lazy" />
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Level 2: case study detail -->
+      <div class="services__detail" hidden>
+        <button class="services__back" aria-label="Back to project list">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M19 12H5m0 0l7 7m-7-7l7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>all projects</span>
+        </button>
+        <img
+          class="services__case"
+          src={services.caseStudyImage}
+          data-default-src={services.caseStudyImage}
+          alt="Case study"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ projects: services.projects }}>
+  window.__servicesProjects = projects;
+</script>
+
+<style>
+  .services {
+    padding: clamp(60px, 5.2vw, 100px) var(--pad-x);
+  }
+
+  .services__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 50px;
+  }
+
+  .services__body {
+    display: flex;
+    gap: 40px;
+    align-items: stretch;
+    min-height: clamp(480px, 42vw, 807px);
+  }
+
+  .services__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .services__list li {
+    flex: 1;
+    display: flex;
+  }
+
+  .services__tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 10px;
+    background: var(--c-card);
+    color: var(--c-muted);
+    text-align: left;
+    transition: background-color 250ms ease, color 250ms ease, transform 200ms var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .services__tab:hover:not(.is-active) {
+      background: #2a2a2a;
+      color: #9c9890;
+      transform: translateX(4px);
+    }
+  }
+
+  .services__tab.is-active {
+    background: var(--c-yellow);
+    color: var(--c-black);
+  }
+
+  .services__num {
+    font-size: 14px;
+    line-height: 16px;
+    align-self: flex-end;
+  }
+
+  .services__name {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 22px;
+  }
+
+  .services__panel {
+    flex: 0 0 74%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---- Level 1: project list ---- */
+  .services__projects {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+  }
+
+  .services__projects li {
+    flex: 1;
+    display: flex;
+  }
+
+  .services__project {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 40px;
+    border-radius: 10px;
+    background: var(--c-card);
+    text-align: left;
+    transition: background-color 250ms ease, transform 200ms var(--ease-out);
+  }
+
+  .services__project-category {
+    font-size: clamp(12px, 0.9vw, 17px);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c-muted);
+    transition: color 250ms ease;
+  }
+
+  .services__project-name {
+    font-size: clamp(18px, 1.5vw, 29px);
+    font-weight: 600;
+    color: var(--c-white);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .services__project-logo {
+    justify-self: end;
+    max-height: clamp(36px, 3.4vw, 65px);
+    max-width: clamp(70px, 6vw, 115px);
+    width: auto;
+    object-fit: contain;
+    opacity: 0.45;
+    transition: opacity 250ms ease;
+  }
+
+  @media (hover: hover) {
+    .services__project:hover {
+      background: #2a2a2a;
+      transform: translateX(6px);
+    }
+
+    .services__project:hover .services__project-category {
+      color: var(--c-yellow);
+    }
+
+    .services__project:hover .services__project-logo {
+      opacity: 1;
+    }
+  }
+
+  /* ---- Level 2: case study detail ---- */
+  .services__detail {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-height: 0;
+  }
+
+  .services__detail[hidden],
+  .services__projects[hidden] {
+    display: none;
+  }
+
+  .services__back {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+    border-radius: 100px;
+    background: var(--c-card);
+    color: var(--c-white);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: clamp(14px, 1vw, 18px);
+    text-transform: lowercase;
+    transition: background-color 250ms ease, color 250ms ease;
+  }
+
+  @media (hover: hover) {
+    .services__back:hover {
+      background: var(--c-yellow);
+      color: var(--c-black);
+    }
+  }
+
+  .services__back svg {
+    transition: transform 250ms var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .services__back:hover svg {
+      transform: translateX(-3px);
+    }
+  }
+
+  .services__case {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    object-fit: cover;
+    border-radius: 20px;
+    background: var(--c-panel);
+  }
+
+  /* ---- View transitions ---- */
+  .services__projects,
+  .services__detail {
+    animation: panel-in 350ms var(--ease-out);
+  }
+
+  @keyframes panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .services__projects,
+    .services__detail {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .services__body {
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .services__panel {
+      flex: none;
+    }
+
+    .services__tab {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 14px;
+      min-height: 64px;
+    }
+
+    .services__num {
+      align-self: center;
+    }
+
+    .services__project {
+      grid-template-columns: 1fr auto;
+      grid-template-areas: 'name logo' 'category logo';
+      padding: 16px 20px;
+      min-height: 72px;
+    }
+
+    .services__project-category {
+      grid-area: category;
+    }
+
+    .services__project-name {
+      grid-area: name;
+      text-align: left;
+    }
+
+    .services__project-logo {
+      grid-area: logo;
+    }
+
+    .services__case {
+      aspect-ratio: 16 / 10;
+      flex: none;
+    }
+  }
+</style>
+
+<script>
+  const section = document.querySelector('.services')!;
+  const tabs = section.querySelectorAll<HTMLButtonElement>('.services__tab');
+  const projectList = section.querySelector<HTMLUListElement>('.services__projects')!;
+  const projectButtons = section.querySelectorAll<HTMLButtonElement>('.services__project');
+  const detail = section.querySelector<HTMLElement>('.services__detail')!;
+  const backBtn = section.querySelector<HTMLButtonElement>('.services__back')!;
+  const caseImg = section.querySelector<HTMLImageElement>('.services__case')!;
+  const projects = (window as any).__servicesProjects as {
+    name: string;
+    caseStudyImage?: string;
+  }[];
+
+  function showList() {
+    detail.hidden = true;
+    projectList.hidden = false;
+    // Restart the entrance animation
+    projectList.style.animation = 'none';
+    void projectList.offsetHeight;
+    projectList.style.animation = '';
+  }
+
+  function showDetail(index: number) {
+    const project = projects[index];
+    caseImg.src = project?.caseStudyImage || caseImg.dataset.defaultSrc!;
+    caseImg.alt = `${project?.name ?? 'Project'} case study`;
+    projectList.hidden = true;
+    detail.hidden = false;
+    detail.style.animation = 'none';
+    void detail.offsetHeight;
+    detail.style.animation = '';
+  }
+
+  // Service tab click: highlight tab, return to the project list
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach((t) => {
+        t.classList.toggle('is-active', t === tab);
+        t.setAttribute('aria-selected', String(t === tab));
+      });
+      showList();
+    });
+  });
+
+  projectButtons.forEach((btn) => {
+    btn.addEventListener('click', () => showDetail(Number(btn.dataset.project)));
+  });
+
+  backBtn.addEventListener('click', showList);
+</script>

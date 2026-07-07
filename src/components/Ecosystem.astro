@@ -1,0 +1,106 @@
+---
+import type { SiteContent } from '../content/defaults';
+
+interface Props {
+  ecosystem: SiteContent['ecosystem'];
+}
+const { ecosystem } = Astro.props;
+---
+
+<section class="eco" id="store">
+  <h2 class="eco__heading" data-reveal>
+    <span>{ecosystem.headingPre}</span><img
+      class="eco__icon"
+      src="/icons/eco-icon.png"
+      alt="co"
+      width="145"
+      height="85"
+    /><span>{ecosystem.headingPost}</span>
+  </h2>
+
+  <!-- Abstract shelf graphic (decorative), bars pop in on scroll -->
+  <div class="eco__graphic" data-reveal style="--reveal-delay: 200ms" aria-hidden="true">
+    <div class="eco__shelf eco__shelf--1"></div>
+    <div class="eco__block" style="--x: 13.4%; --w: 6.5%; --h: 163; --b: 54.3%; --d: 0"></div>
+    <div class="eco__block" style="--x: 20.5%; --w: 6.5%; --h: 163; --b: 54.3%; --d: 1"></div>
+    <div class="eco__block" style="--x: 27.7%; --w: 6.5%; --h: 163; --b: 54.3%; --d: 2"></div>
+    <div class="eco__shelf eco__shelf--2a"></div>
+    <div class="eco__shelf eco__shelf--2b"></div>
+    <div class="eco__block" style="--x: 70.7%; --w: 19.4%; --h: 65; --b: 31.6%; --d: 3"></div>
+    <div class="eco__block" style="--x: 50.7%; --w: 4.9%; --h: 93; --b: 12%; --d: 4"></div>
+    <div class="eco__block" style="--x: 56.6%; --w: 4.9%; --h: 93; --b: 12%; --d: 5"></div>
+    <div class="eco__block" style="--x: 62.4%; --w: 4.9%; --h: 93; --b: 12%; --d: 6"></div>
+    <div class="eco__shelf eco__shelf--3"></div>
+  </div>
+
+  <a class="pill-btn" href="#" data-reveal style="--reveal-delay: 350ms">{ecosystem.ctaText}</a>
+</section>
+
+<style>
+  .eco {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: clamp(60px, 5.2vw, 100px) var(--pad-x);
+  }
+
+  .eco__heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--fs-heading);
+    font-weight: 600;
+    line-height: 1;
+    text-transform: lowercase;
+    color: var(--c-yellow);
+  }
+
+  .eco__icon {
+    width: clamp(52px, 7.5vw, 145px);
+    height: auto;
+    align-self: flex-start;
+    margin-top: 0.06em;
+  }
+
+  .eco__graphic {
+    position: relative;
+    width: min(1480px, 100%);
+    aspect-ratio: 1480 / 521;
+  }
+
+  .eco__shelf {
+    position: absolute;
+    height: 3.65%;
+    background: var(--c-panel);
+  }
+
+  .eco__shelf--1 { left: 0; right: 0; top: 31.3%; }
+  .eco__shelf--2a { left: 0; width: 27%; top: 62.8%; }
+  .eco__shelf--2b { right: 0; width: 64.2%; top: 62.8%; }
+  .eco__shelf--3 { left: 0; right: 0; bottom: 0; }
+
+  .eco__block {
+    position: absolute;
+    left: var(--x);
+    width: var(--w);
+    height: calc(var(--h) / 521 * 100%);
+    bottom: var(--b);
+    background: var(--c-bar);
+    transform-origin: bottom;
+    transform: scaleY(0);
+    transition: transform 600ms var(--ease-out);
+    transition-delay: calc(var(--d) * 90ms + 300ms);
+  }
+
+  .eco__graphic.is-visible .eco__block {
+    transform: scaleY(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eco__block {
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

@@ -1,0 +1,16 @@
+---
+interface Props {
+  text: string;
+  yellow?: boolean;
+  duration?: string;
+}
+const { text, yellow = false, duration = '40s' } = Astro.props;
+// Duplicate content so the -50% translate loops seamlessly.
+const copies = [0, 1, 2, 3];
+---
+
+<div class:list={['ticker', { 'ticker--yellow': yellow }]} aria-hidden="true">
+  <div class="ticker__track" style={`--ticker-duration: ${duration}`}>
+    {copies.map(() => <span class="ticker__item">{text}</span>)}
+  </div>
+</div>

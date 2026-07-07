@@ -1,0 +1,50 @@
+---
+import fs from 'node:fs';
+
+// Full-bleed media section ("Website hands glitch" in Figma).
+// Drop the real animation at public/images/hands-glitch.gif (or .mp4/.webm)
+// and this picks it up automatically; falls back to the static Figma frame.
+const gifExists = fs.existsSync(new URL('../../public/images/hands-glitch.gif', import.meta.url));
+
+let videoPath = null;
+if (fs.existsSync(new URL('../../public/videos/Website hands glitch.mp4', import.meta.url))) {
+  videoPath = '/videos/Website hands glitch.mp4';
+} else {
+  const imgVideoSrc = ['hands-glitch.mp4', 'hands-glitch.webm'].find((f) =>
+    fs.existsSync(new URL(`../../public/images/${f}`, import.meta.url)),
+  );
+  if (imgVideoSrc) {
+    videoPath = `/images/${imgVideoSrc}`;
+  }
+}
+---
+
+<section class="gif-section">
+  {videoPath ? (
+    <video src={videoPath} autoplay muted loop playsinline></video>
+  ) : (
+    <img
+      src={gifExists ? '/images/hands-glitch.gif' : '/images/hands-glitch.png'}
+      alt="Two hands reaching toward each other, glitch art style"
+      loading="lazy"
+    />
+  )}
+</section>
+
+<style>
+  .gif-section {
+    /* Match the Figma frame ratio (1920x1080) instead of forcing viewport
+       height, so the section never reads as an empty gap. */
+    aspect-ratio: 16 / 9;
+    max-height: 100svh;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .gif-section img,
+  .gif-section video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

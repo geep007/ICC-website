@@ -1,0 +1,207 @@
+---
+interface Props {
+  links: { label: string; href: string }[];
+}
+const { links } = Astro.props;
+const [left, right] = [links.slice(0, 2), links.slice(2)];
+---
+
+<header class="nav-wrap">
+  <nav class="nav" aria-label="Main">
+    <div class="nav__group">
+      {left.map((link) => <a class="nav__link" href={link.href}>{link.label}</a>)}
+    </div>
+    <a class="nav__logo" href="/" aria-label="Independent Creators Co. home">
+      <img src="/icons/co-icon.png" alt="" width="66" height="66" />
+    </a>
+    <div class="nav__group">
+      {right.map((link) => <a class="nav__link" href={link.href}>{link.label}</a>)}
+    </div>
+    <button class="nav__burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<style>
+  .nav-wrap {
+    position: fixed;
+    top: clamp(20px, 3.6vw, 70px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: min(1132px, calc(100vw - 40px));
+    animation: nav-drop 800ms var(--ease-out) both;
+    animation-delay: 200ms;
+  }
+
+  @keyframes nav-drop {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -24px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    padding-inline: clamp(24px, 3vw, 60px);
+    border-radius: 100px;
+    background: rgb(30 30 30 / 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .nav__group {
+    display: flex;
+    gap: clamp(24px, 3.5vw, 67px);
+    flex: 1;
+  }
+
+  .nav__group:last-of-type {
+    justify-content: flex-end;
+  }
+
+  .nav__link {
+    font-size: clamp(16px, 1.25vw, 24px);
+    font-weight: 500;
+    text-transform: lowercase;
+    position: relative;
+    padding-block: 4px;
+  }
+
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--c-yellow);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 300ms var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .nav__link:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+
+  .nav__logo {
+    flex-shrink: 0;
+    margin-inline: clamp(16px, 2vw, 40px);
+    transition: transform 300ms var(--ease-out);
+  }
+
+  .nav__logo img {
+    width: clamp(40px, 3.4vw, 66px);
+    height: auto;
+  }
+
+  @media (hover: hover) {
+    .nav__logo:hover {
+      transform: rotate(-8deg) scale(1.06);
+    }
+  }
+
+  .nav__burger {
+    display: none;
+    flex-direction: column;
+    gap: 7px;
+    background: none;
+    padding: 10px;
+  }
+
+  .nav__burger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--c-white);
+    transition: transform 250ms var(--ease-out), opacity 200ms ease;
+  }
+
+  @media (max-width: 768px) {
+    .nav {
+      height: 48px;
+      padding-inline: 20px;
+    }
+
+    .nav__group {
+      display: none;
+    }
+
+    .nav--open .nav__group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .nav__burger {
+      display: flex;
+    }
+
+    .nav-wrap.nav-wrap--open .nav {
+      height: auto;
+      flex-direction: column;
+      align-items: flex-start;
+      border-radius: 24px;
+      padding-block: 20px;
+      gap: 16px;
+    }
+
+    .nav-wrap.nav-wrap--open .nav__group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .nav-wrap.nav-wrap--open .nav__burger {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+    }
+
+    .nav-wrap.nav-wrap--open .nav__burger span:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+
+    .nav-wrap.nav-wrap--open .nav__burger span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-wrap.nav-wrap--open .nav__burger span:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-wrap {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const wrap = document.querySelector('.nav-wrap');
+  const burger = wrap?.querySelector('.nav__burger');
+  burger?.addEventListener('click', () => {
+    const open = wrap!.classList.toggle('nav-wrap--open');
+    burger.setAttribute('aria-expanded', String(open));
+  });
+  // Close on link tap (mobile)
+  wrap?.querySelectorAll('.nav__link').forEach((link) =>
+    link.addEventListener('click', () => {
+      wrap.classList.remove('nav-wrap--open');
+      burger?.setAttribute('aria-expanded', 'false');
+    }),
+  );
+</script>

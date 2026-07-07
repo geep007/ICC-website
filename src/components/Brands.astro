@@ -1,0 +1,85 @@
+---
+import type { SiteContent } from '../content/defaults';
+
+interface Props {
+  roster: SiteContent['roster'];
+}
+const { roster } = Astro.props;
+---
+
+<section class="brands">
+  <h2 class="section-heading brands__heading" data-reveal>{roster.heading}</h2>
+  <ul class="brands__grid">
+    {roster.logos.map((logo, i) => (
+      <li
+        class="brands__cell"
+        data-reveal
+        style={`--reveal-delay: ${(i % 7) * 60 + Math.floor(i / 7) * 120}ms`}
+      >
+        <img
+          src={logo.src}
+          alt={logo.alt}
+          width={logo.width}
+          height={logo.height}
+          loading="lazy"
+        />
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .brands {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: clamp(40px, 2.6vw, 50px) var(--pad-x);
+  }
+
+  .brands__heading {
+    text-align: center;
+  }
+
+  .brands__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: min(1680px, 100%);
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: clamp(20px, 3vw, 60px) clamp(20px, 5.2vw, 100px);
+    align-items: center;
+    justify-items: center;
+  }
+
+  .brands__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brands__cell img {
+    max-height: clamp(64px, 10.4vw, 200px);
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.9;
+    transition: filter 250ms ease, opacity 250ms ease, transform 250ms var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .brands__cell img:hover {
+      filter: grayscale(0);
+      opacity: 1;
+      transform: scale(1.08);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .brands__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,181 @@
+---
+import type { SiteContent } from '../content/defaults';
+
+interface Props {
+  contact: SiteContent['contact'];
+}
+const { contact } = Astro.props;
+---
+
+<section class="contact" id="contact">
+  <div class="contact__left">
+    <div class="contact__intro" data-reveal>
+      <h2 class="contact__heading">
+        {contact.headingLine1}<br />{contact.headingLine2}
+      </h2>
+      <p class="contact__body">{contact.body}</p>
+    </div>
+
+    <form class="contact__form" data-reveal style="--reveal-delay: 150ms" method="post" action="#contact">
+      <div class="contact__row">
+        <label class="field">
+          <span class="sr-only">Full Name</span>
+          <input type="text" name="fullName" placeholder="Full Name" autocomplete="name" required />
+        </label>
+        <label class="field">
+          <span class="sr-only">Contact No.</span>
+          <input type="tel" name="phone" placeholder="Contact No." autocomplete="tel" />
+        </label>
+      </div>
+      <label class="field">
+        <span class="sr-only">Email</span>
+        <input type="email" name="email" placeholder="Enter Email" autocomplete="email" required />
+      </label>
+      <label class="field field--select">
+        <span class="sr-only">Services</span>
+        <select name="service" required>
+          <option value="" disabled selected>Services</option>
+          {contact.serviceOptions.map((option) => <option value={option}>{option}</option>)}
+        </select>
+        <img class="field__chevron" src="/icons/arrow-down.svg" alt="" width="24" height="24" />
+      </label>
+      <button class="pill-btn contact__submit" type="submit">{contact.submitText}</button>
+    </form>
+  </div>
+
+  <div class="contact__media" data-reveal style="--reveal-delay: 250ms" aria-hidden="true"></div>
+</section>
+
+<style>
+  .contact {
+    display: flex;
+    gap: clamp(40px, 6vw, 120px);
+    align-items: stretch;
+    padding: clamp(60px, 5.2vw, 100px) var(--pad-x);
+  }
+
+  .contact__left {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    width: min(800px, 100%);
+    flex-shrink: 0;
+  }
+
+  .contact__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact__heading {
+    font-size: var(--fs-heading);
+    font-weight: 600;
+    line-height: 1.16;
+    color: var(--c-yellow);
+  }
+
+  .contact__body {
+    font-size: var(--fs-body-lg);
+    font-weight: 500;
+    text-transform: lowercase;
+    line-height: 1.5;
+  }
+
+  .contact__form {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 2.6vw, 50px);
+  }
+
+  .contact__row {
+    display: flex;
+    gap: clamp(24px, 2.6vw, 50px);
+  }
+
+  .contact__row .field {
+    flex: 1;
+  }
+
+  .field {
+    position: relative;
+    display: flex;
+  }
+
+  .field input,
+  .field select {
+    width: 100%;
+    padding: 10px 50px 10px 40px;
+    border: 2px solid var(--c-white);
+    border-radius: 100px;
+    background: transparent;
+    color: var(--c-white);
+    font-family: var(--font-form);
+    font-weight: 500;
+    font-size: clamp(16px, 1.25vw, 24px);
+    line-height: 50px;
+    appearance: none;
+    transition: border-color 200ms ease;
+  }
+
+  .field input::placeholder {
+    color: var(--c-muted);
+  }
+
+  .field select:invalid {
+    color: var(--c-muted);
+  }
+
+  .field input:focus-visible,
+  .field select:focus-visible {
+    outline: none;
+    border-color: var(--c-yellow);
+  }
+
+  .field__chevron {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .contact__submit {
+    width: 100%;
+  }
+
+  .contact__media {
+    flex: 1;
+    border-radius: 20px;
+    background: var(--c-panel);
+    min-height: 400px;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 1100px) {
+    .contact {
+      flex-direction: column;
+    }
+
+    .contact__media {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .contact__row {
+      flex-direction: column;
+    }
+  }
+</style>
