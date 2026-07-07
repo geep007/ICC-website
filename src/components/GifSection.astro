@@ -1,34 +1,10 @@
 ---
-import fs from 'node:fs';
-
 // Full-bleed media section ("Website hands glitch" in Figma).
-// Drop the real animation at public/images/hands-glitch.gif (or .mp4/.webm)
-// and this picks it up automatically; falls back to the static Figma frame.
-const gifExists = fs.existsSync(new URL('../../public/images/hands-glitch.gif', import.meta.url));
-
-let videoPath = null;
-if (fs.existsSync(new URL('../../public/videos/Website hands glitch.mp4', import.meta.url))) {
-  videoPath = '/videos/Website hands glitch.mp4';
-} else {
-  const imgVideoSrc = ['hands-glitch.mp4', 'hands-glitch.webm'].find((f) =>
-    fs.existsSync(new URL(`../../public/images/${f}`, import.meta.url)),
-  );
-  if (imgVideoSrc) {
-    videoPath = `/images/${imgVideoSrc}`;
-  }
-}
+// The video is stored at public/videos/website-hands-glitch.mp4
 ---
 
 <section class="gif-section">
-  {videoPath ? (
-    <video src={videoPath} autoplay muted loop playsinline></video>
-  ) : (
-    <img
-      src={gifExists ? '/images/hands-glitch.gif' : '/images/hands-glitch.png'}
-      alt="Two hands reaching toward each other, glitch art style"
-      loading="lazy"
-    />
-  )}
+  <video src="/videos/website-hands-glitch.mp4" autoplay muted loop playsinline></video>
 </section>
 
 <style>
